@@ -13,6 +13,6 @@ export class Users {
     @Column()
     email: string
 
-    @Column()
+    @Column({ nullable: true })
     refreshToken: string
 }

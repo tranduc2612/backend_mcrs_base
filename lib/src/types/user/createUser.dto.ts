@@ -1,5 +1,5 @@
 export interface CreateUserDTO {
-    id: string,
-    name: string,
-    age: string
+    username: string
+    password: string
+    email: string
 }
