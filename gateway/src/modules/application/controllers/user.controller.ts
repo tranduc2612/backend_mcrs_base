@@ -1,16 +1,19 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from '../services/app.service';
+import { Controller, Get, Inject } from '@nestjs/common';
+import { AppService } from '../services/user.service';
+import { ClientProxy } from '@nestjs/microservices';
 
 // @UseGuards(AuthGuard)
 // @Controller('applications/cascade')
 // @ApiTags('Cascade Apis')
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: AppService,@Inject('USER_SERVICE') private client: ClientProxy) {}
 
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  getHello() {
+	return this.client.send({cmd: 'GET_USER'}, {
+		username: 'ductm'
+	})
   }
 
   // @Post()
