@@ -1,29 +1,23 @@
 import {
   Body,
   Controller,
-  Get,
-  HttpException,
-  HttpStatus,
-  Param,
   Post,
-  Request,
-  Res,
+  Res
 } from '@nestjs/common';
-import { UserService } from '../services/user.service';
+import { MessagePattern, Transport } from '@nestjs/microservices';
 import { Response } from 'express';
-import { CreateUserDTO } from 'lib';
+import { CreateUserDTO, TCP_MESSAGES } from 'lib';
+import { UserService } from '../services/user.service';
 
 @Controller()
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get('user/:username')
-  async getUser(@Param('username') username: string, @Res() res: Response) {
-    const data = await this.userService.get(username);
-    return res.status(200).json({
-      data: data,
-      message: 'Get User successfully',
-    });
+  @MessagePattern({cmd: TCP_MESSAGES.USER_SERVICE.GET_USER}, Transport.TCP)
+  async getUser(@Body() payload) {
+    console.log(payload)
+    const data = await this.userService.get(payload.username);
+    return data
   }
 
   @Post('create-user')

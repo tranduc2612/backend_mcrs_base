@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateUserDTO } from 'lib';
+import { CreateUserDTO, UserDTO } from 'lib';
 import { Users } from 'src/entities/user.entity';
 import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
@@ -11,13 +11,21 @@ export class UserService {
     @InjectRepository(Users) private readonly userRepository: Repository<Users>,
   ) {}
 
-  async get(username: string): Promise<Users> {
+  async get(username: string): Promise<UserDTO> {
     const data = await this.userRepository.findOne({
       where: {
         username,
       },
     });
-    return data;
+
+    const dataMapper: UserDTO = {
+      username: data.username,
+      email: data.email
+    }
+
+    return {
+      ...dataMapper
+    };
   }
 
   async create(dto: CreateUserDTO): Promise<Users> {

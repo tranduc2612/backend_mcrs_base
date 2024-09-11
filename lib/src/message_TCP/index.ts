@@ -1,7 +1,10 @@
-export const MESSAGE_AUTH = {
-    LOGIN: 'LOGIN_MESSAGE'
-}
-
-export const MESSAGE_USER = {
-    USER: 'USER_MESSAGE'
+export const TCP_MESSAGES = {
+    AUTH_SERVICE: {
+        LOGIN_USER: 'login-user',
+        REGISTER_USER: 'register-user',
+	},
+	USER_SERVICE: {
+        CREATE_USER: 'create-user',
+        GET_USER: 'get-user',
+	},
 }

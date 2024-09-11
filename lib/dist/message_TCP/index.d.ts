@@ -1,6 +1,10 @@
-export declare const MESSAGE_AUTH: {
-    LOGIN: string;
-};
-export declare const MESSAGE_USER: {
-    USER: string;
+export declare const TCP_MESSAGES: {
+    AUTH_SERVICE: {
+        LOGIN_USER: string;
+        REGISTER_USER: string;
+    };
+    USER_SERVICE: {
+        CREATE_USER: string;
+        GET_USER: string;
+    };
 };
