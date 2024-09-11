@@ -14,33 +14,48 @@ export class UserService {
   async get(username: string): Promise<UserDTO> {
     const data = await this.userRepository.findOne({
       where: {
-        username,
+        username, 
       },
     });
 
-    const dataMapper: UserDTO = {
-      username: data.username,
-      email: data.email
+    if(data){
+      const dataMapper: UserDTO = {
+        id: data.id,
+        username: data.username,
+        email: data.email
+      }
+  
+      return {
+        ...dataMapper
+      };
     }
 
-    return {
-      ...dataMapper
-    };
+    return null
+    
   }
 
-  async create(dto: CreateUserDTO): Promise<Users> {
+  async create(dto: CreateUserDTO): Promise<UserDTO> {
+    console.log(dto)
     const newUser = await this.userRepository.create({
       id: uuidv4(),
       ...dto,
     });
 
-    return await this.userRepository.save(newUser);
-  }
+    const data = await this.userRepository.save(newUser);
 
-  update(): string {
-    return 'Hello World!';
-  }
-  delete(): string {
-    return 'Hello World!';
+    if(data){
+      const dataMapper: UserDTO = {
+        id: data.id,
+        username: data.username,
+        email: data.email
+      }
+
+      return {
+        ...dataMapper
+      };
+     
+    }
+    return null
+    
   }
 }

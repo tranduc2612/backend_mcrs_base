@@ -14,18 +14,11 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @MessagePattern({cmd: TCP_MESSAGES.USER_SERVICE.GET_USER}, Transport.TCP)
-  async getUser(@Body() payload) {
-    console.log(payload)
-    const data = await this.userService.get(payload.username);
-    return data
+   getUser(@Body() payload) {
+    return this.userService.get(payload.username); 
   }
-
-  @Post('create-user')
-  async createUser(@Body() userDTO: CreateUserDTO, @Res() res: Response) {
-    const data = await this.userService.create(userDTO);
-    return res.status(201).json({
-      data: data,
-      message: 'Create user successfully',
-    });
+  @MessagePattern({cmd: TCP_MESSAGES.USER_SERVICE.CREATE_USER}, Transport.TCP)
+  createUser(@Body() data: CreateUserDTO) {
+    return this.userService.create(data); 
   }
 }

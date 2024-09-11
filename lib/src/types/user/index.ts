@@ -1,4 +1,4 @@
-export * from "./CreateUser.dto"
-export * from "./UpdateUser.dto"
+export * from "./createUser.dto"
+export * from "./updateUser.dto"
 export * from "./UserDTO.dto"
 

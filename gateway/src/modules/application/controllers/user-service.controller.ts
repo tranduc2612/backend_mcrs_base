@@ -1,8 +1,9 @@
-import { Controller, Get, Inject, Param, Res, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Param, Post, Res, UseInterceptors } from '@nestjs/common';
 import { AppService } from '../services/user-service.service';
 import { ClientProxy } from '@nestjs/microservices';
 import { Response } from 'express';
 import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
+import { CreateUserDTO } from 'lib';
 
 // @UseGuards(AuthGuard)
 // @Controller('applications/cascade')
@@ -12,9 +13,14 @@ import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
 export class AppController {
   constructor(private readonly userService: AppService) {}
 
-  @Get(":username")
+@Get(":username")
 getUser(@Param("username") username: string) {
-	return this.userService.get(username);
+	return this.userService.get(username);  
+}
+
+@Post()
+createUser(@Body() dto: CreateUserDTO) {
+	return this.userService.create(dto); 
 }
 
 //   @Post()
