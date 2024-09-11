@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { AppService } from './services/user.service';
-import { AppController } from './controllers/user.controller';
+import { AppService } from './services/user-service.service';
+import { AppController } from './controllers/user-service.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 
 @Module({
