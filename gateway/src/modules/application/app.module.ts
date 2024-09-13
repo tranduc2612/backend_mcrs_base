@@ -8,6 +8,10 @@ import { env } from 'configs/env.config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+      isGlobal: true,
+    }),
     ClientsModule.register([
       {
         name: TCP_SERVICES_KEYS.USER_SERVICE_KEY,
@@ -18,9 +22,6 @@ import { env } from 'configs/env.config';
         },
       },
     ]),
-    ConfigModule.forRoot({
-      envFilePath: '.env',
-    }),
   ],
   controllers: [AppController],
   providers: [AppService],
