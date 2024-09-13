@@ -1,9 +1,7 @@
-import { Body, Controller, Get, Inject, Param, Post, Res, UseInterceptors } from '@nestjs/common';
-import { AppService } from '../services/user-service.service';
-import { ClientProxy } from '@nestjs/microservices';
-import { Response } from 'express';
-import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
+import { Body, Controller, Get, Param, Post, UseInterceptors } from '@nestjs/common';
 import { CreateUserDTO } from 'lib';
+import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
+import { AppService } from '../services/user-service.service';
 
 // @UseGuards(AuthGuard)
 // @Controller('applications/cascade')
