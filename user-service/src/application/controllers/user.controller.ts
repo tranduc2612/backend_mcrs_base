@@ -19,6 +19,6 @@ export class UserController {
   }
   @MessagePattern({cmd: TCP_MESSAGES.USER_SERVICE.CREATE_USER}, Transport.TCP)
   createUser(@Body() data: CreateUserDTO) {
-    return this.userService.create(data); 
+    return this.userService.create(data);  
   }
 }

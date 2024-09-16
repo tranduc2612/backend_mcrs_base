@@ -7,12 +7,17 @@ import { TCP_SERVICES_KEYS } from 'lib';
 import { env } from 'configs/env.config';
 import { AuthController } from './controllers/auth-service.controller';
 import { AuthService } from './services/auth-service.service';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: '.env',
       isGlobal: true,
+    }),
+    JwtModule.register({
+      secret: env.APP.SECRET_KEY, // Nên lưu trong biến môi trường
+      signOptions: { expiresIn: '1h' },
     }),
     ClientsModule.register([
       {

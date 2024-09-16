@@ -4,6 +4,7 @@ dotenv.config();
 
 export const env = {
   APP: {
+    SECRET_KEY: process.env.SECRET_KEY,
     GATEWAY: {
       PORT: +process.env.GATEWAY_PORT || 3000,
       HOST: process.env.GATEWAY_HOST || 'localhost',

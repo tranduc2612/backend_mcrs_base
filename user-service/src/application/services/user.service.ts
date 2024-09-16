@@ -1,3 +1,4 @@
+import { RpcBadRequestException } from './../../../../auth/src/exceptions/custom-rpc-exceptions';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDTO, UserDTO } from 'lib';
@@ -30,7 +31,7 @@ export class UserService {
       };
     }
 
-    return null
+    throw new RpcBadRequestException('The username is not exist !');
     
   }
 

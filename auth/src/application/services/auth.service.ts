@@ -13,17 +13,28 @@ export class AuthService {
   constructor(
     @InjectRepository(Users) private readonly userRepository: Repository<Users>,
     private readonly jwtService: JwtService,
-  ) {}
+  ) {} 
   async authentication({ username, password }: LoginDTO) {
     const dataUser = await this.validateUser(username, password);
 
-    return dataUser;
+    if (dataUser) {
+      const token = this.createToken(dataUser);
+      await this.userRepository.update(dataUser.id, {
+        ...token,
+      });
+      return {
+        ...dataUser,
+        ...token
+      };
+    }
+
+    throw new RpcBadRequestException('The username is not exist !');
   }
 
   async registration({ username, password, email }: RegisterDTO) {
     const dataUser = await this.validateUser(username, password);
     if (dataUser) {
-      throw new RpcBadRequestException('User exist');
+      throw new RpcBadRequestException('The username is already exist !');
     }
 
     const hashedPassword = await this.hashPassword(password);
@@ -36,6 +47,17 @@ export class AuthService {
 
     const user = await this.userRepository.save(newUser);
     return user;
+  }
+
+  createToken(payload): { accessToken: string; refreshToken: string } {
+    const { accessToken, refreshToken, ...data } = payload;
+    const newAccessToken = this.jwtService.sign(data);
+    const newRefreshToken = Math.random().toString();
+
+    return {
+      accessToken: newAccessToken,
+      refreshToken: newRefreshToken,
+    };
   }
 
   async validateUser(
@@ -51,15 +73,7 @@ export class AuthService {
     // So sánh mật khẩu đã mã hóa
     if (user && (await bcrypt.compare(password, user.password))) {
       const { password, ...data } = user;
-      const accessToken = this.jwtService.sign(data);
-      const refreshToken = Math.random().toString();
-
-      await this.userRepository.update(user.id, {
-        accessToken,
-        refreshToken,
-      });
-
-      return { ...data, accessToken, refreshToken };
+      return data;
     }
 
     return null;

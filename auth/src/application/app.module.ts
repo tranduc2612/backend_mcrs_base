@@ -8,6 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from 'src/utils/local.strategy';
 import { JwtModule } from '@nestjs/jwt';
+import { env } from 'src/configs/env.config';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { JwtModule } from '@nestjs/jwt';
     TypeOrmModule.forRootAsync(TypeOrmConFig),
     TypeOrmModule.forFeature([Users]),
     JwtModule.register({
-      secret: 'your_secret_key',  // Nên lưu trong biến môi trường
+      secret: env.APP.SECRET_KEY,  // Nên lưu trong biến môi trường
       signOptions: { expiresIn: '1h' },
     }),
     PassportModule
