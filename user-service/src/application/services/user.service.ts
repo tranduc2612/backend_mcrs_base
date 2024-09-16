@@ -22,7 +22,7 @@ export class UserService {
       const dataMapper: UserDTO = {
         id: data.id,
         username: data.username,
-        email: data.email
+        email: data.email,
       }
   
       return {
@@ -35,7 +35,6 @@ export class UserService {
   }
 
   async create(dto: CreateUserDTO): Promise<UserDTO> {
-    console.log(dto)
     const newUser = await this.userRepository.create({
       id: uuidv4(),
       ...dto,

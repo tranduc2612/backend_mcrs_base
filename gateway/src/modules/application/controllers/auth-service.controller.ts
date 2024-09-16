@@ -1,24 +1,24 @@
-import { Body, Controller, Get, Param, Post, UseInterceptors } from '@nestjs/common';
-import { CreateUserDTO } from 'lib';
+import { Body, Controller, Post, UseInterceptors } from '@nestjs/common';
+import { LoginDTO, RegisterDTO } from 'lib';
 import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
-import { UserService } from '../services/user-service.service';
+import { AuthService } from '../services/auth-service.service';
 
 // @UseGuards(AuthGuard)
 // @Controller('applications/cascade')
 // @ApiTags('Cascade Apis')
-@Controller("user")
+@Controller("auth")
 @UseInterceptors(new TransformInterceptor())
-export class UserController {
-  constructor(private readonly userService: UserService) {}
+export class AuthController {
+  constructor(private readonly authService: AuthService) {}
 
-@Get(":username")
-getUser(@Param("username") username: string) {
-	return this.userService.get(username);  
+@Post("login")
+loginUser(@Body() dto: LoginDTO) {
+	return this.authService.login(dto); 
 }
 
-@Post()
-createUser(@Body() dto: CreateUserDTO) {
-	return this.userService.create(dto); 
+@Post("register")
+registerUser(@Body() dto: RegisterDTO) { 
+	return this.authService.register(dto);
 }
 
 //   @Post()

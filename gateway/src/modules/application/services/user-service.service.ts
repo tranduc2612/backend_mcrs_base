@@ -4,7 +4,7 @@ import { transformRequest } from 'src/utils/request.helper';
 import { TCP_MESSAGES, UserDTO, TCP_SERVICES_KEYS, CreateUserDTO } from 'lib';
 
 @Injectable()
-export class AppService {
+export class UserService {
   constructor(@Inject(TCP_SERVICES_KEYS.USER_SERVICE_KEY) private client: ClientProxy) {}
 
   async get(username: string) {

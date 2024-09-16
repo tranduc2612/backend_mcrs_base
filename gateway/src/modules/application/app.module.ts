@@ -1,10 +1,12 @@
 import { ConfigModule } from '@nestjs/config';
 import { Module } from '@nestjs/common';
-import { AppService } from './services/user-service.service';
-import { AppController } from './controllers/user-service.controller';
+import { UserService } from './services/user-service.service';
+import { UserController } from './controllers/user-service.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { TCP_SERVICES_KEYS } from 'lib';
 import { env } from 'configs/env.config';
+import { AuthController } from './controllers/auth-service.controller';
+import { AuthService } from './services/auth-service.service';
 
 @Module({
   imports: [
@@ -21,9 +23,17 @@ import { env } from 'configs/env.config';
           port: env.APP.USER_SERVICE.PORT,
         },
       },
+      {
+        name: TCP_SERVICES_KEYS.AUTH_SERVICE_KEY,
+        transport: Transport.TCP,
+        options: {
+          host: env.APP.AUTH_SERVICE.HOST,
+          port: env.APP.AUTH_SERVICE.PORT,
+        },
+      },
     ]),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [UserController, AuthController],
+  providers: [UserService, AuthService],
 })
 export class AppModule {}
