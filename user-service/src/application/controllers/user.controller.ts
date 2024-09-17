@@ -1,11 +1,8 @@
 import {
   Body,
-  Controller,
-  Post,
-  Res
+  Controller
 } from '@nestjs/common';
 import { MessagePattern, Transport } from '@nestjs/microservices';
-import { Response } from 'express';
 import { CreateUserDTO, TCP_MESSAGES } from 'lib';
 import { UserService } from '../services/user.service';
 
@@ -19,6 +16,6 @@ export class UserController {
   }
   @MessagePattern({cmd: TCP_MESSAGES.USER_SERVICE.CREATE_USER}, Transport.TCP)
   createUser(@Body() data: CreateUserDTO) {
-    return this.userService.create(data); 
+    return this.userService.create(data);  
   }
 }

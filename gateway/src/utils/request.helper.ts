@@ -13,7 +13,7 @@ export async function transformRequest<T>(
     const response = await firstValueFrom(tcpResponse);
     return response as T;
   } catch (error) {
-    const { status, message } = error;
-    throw new HttpException(message, status);
+    const { statusCode, message } = error;
+    throw new HttpException(message, statusCode);
   }
 }

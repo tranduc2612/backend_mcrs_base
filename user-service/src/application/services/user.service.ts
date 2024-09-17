@@ -1,5 +1,7 @@
+
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { RpcBadRequestException } from 'exceptions/custom-rpc-exceptions';
 import { CreateUserDTO, UserDTO } from 'lib';
 import { Users } from 'src/entities/user.entity';
 import { Repository } from 'typeorm';
@@ -22,7 +24,7 @@ export class UserService {
       const dataMapper: UserDTO = {
         id: data.id,
         username: data.username,
-        email: data.email
+        email: data.email,
       }
   
       return {
@@ -30,12 +32,11 @@ export class UserService {
       };
     }
 
-    return null
+    throw new RpcBadRequestException('The username is not exist !');
     
   }
 
   async create(dto: CreateUserDTO): Promise<UserDTO> {
-    console.log(dto)
     const newUser = await this.userRepository.create({
       id: uuidv4(),
       ...dto,

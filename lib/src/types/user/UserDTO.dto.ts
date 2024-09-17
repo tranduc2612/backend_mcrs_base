@@ -1,5 +1,7 @@
 export interface UserDTO {
     id: string,
     username: string
-    email: string
+    email: string,
+    token?: string,
+    refreshToken?: string
 }

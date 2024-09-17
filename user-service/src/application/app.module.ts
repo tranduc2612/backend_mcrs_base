@@ -8,7 +8,9 @@ import { UserService } from './services/user.service';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+    }),
     TypeOrmModule.forRootAsync(TypeOrmConFig),
     TypeOrmModule.forFeature([Users]),
   ],

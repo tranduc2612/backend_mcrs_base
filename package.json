@@ -1,12 +1,13 @@
 {
-  "name": "my-monorepo",
+  "name": "backend_mcrs_foody",
   "version": "1.0.0",
   "private": true,
   "packageManager": "npm@9.8.1",
   "workspaces": [
     "gateway",
     "user-service",
-    "product-service"
+    "product-service",
+    "auth"
   ],
   "devDependencies": {
     "turbo": "^2.1.1"

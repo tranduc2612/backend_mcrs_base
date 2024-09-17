@@ -1,18 +1,20 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './application/app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { env } from './configs/env.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.TCP,
     options: {
-      host: '127.0.0.1',
-      port: 3001
+      host: env.APP.AUTH_SERVICE.HOST,
+      port:  env.APP.AUTH_SERVICE.PORT
     }
   });
   await app.startAllMicroservices();
-  await app.listen(3001);
-  console.log('listen port 3001')
+  await app.listen(env.APP.AUTH_SERVICE.PORT);
+  console.log(env.APP.SECRET_KEY)
+  console.log('listen port ' + env.APP.AUTH_SERVICE.PORT)
 }
 bootstrap();
