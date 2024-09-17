@@ -15,10 +15,6 @@ import { JwtModule } from '@nestjs/jwt';
       envFilePath: '.env',
       isGlobal: true,
     }),
-    JwtModule.register({
-      secret: env.APP.SECRET_KEY, // Nên lưu trong biến môi trường
-      signOptions: { expiresIn: '1h' },
-    }),
     ClientsModule.register([
       {
         name: TCP_SERVICES_KEYS.USER_SERVICE_KEY,
@@ -37,6 +33,10 @@ import { JwtModule } from '@nestjs/jwt';
         },
       },
     ]),
+    JwtModule.register({
+      secret: env.APP.SECRET_KEY,
+      signOptions: { expiresIn: '1h' },
+    }),
   ],
   controllers: [UserController, AuthController],
   providers: [UserService, AuthService],

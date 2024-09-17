@@ -14,6 +14,7 @@ async function bootstrap() {
   });
   await app.startAllMicroservices();
   await app.listen(env.APP.AUTH_SERVICE.PORT);
+  console.log(env.APP.SECRET_KEY)
   console.log('listen port ' + env.APP.AUTH_SERVICE.PORT)
 }
 bootstrap();

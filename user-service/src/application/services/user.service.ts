@@ -1,6 +1,7 @@
-import { RpcBadRequestException } from './../../../../auth/src/exceptions/custom-rpc-exceptions';
+
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { RpcBadRequestException } from 'exceptions/custom-rpc-exceptions';
 import { CreateUserDTO, UserDTO } from 'lib';
 import { Users } from 'src/entities/user.entity';
 import { Repository } from 'typeorm';
