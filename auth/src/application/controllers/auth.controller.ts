@@ -5,7 +5,7 @@ import { LoginDTO, RegisterDTO, TCP_MESSAGES } from 'lib';
 @Controller()
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-
+  
   @MessagePattern({cmd: TCP_MESSAGES.AUTH_SERVICE.LOGIN_USER}, Transport.TCP)
   login(@Body() payload: LoginDTO) {
     const {username, password} = payload;
