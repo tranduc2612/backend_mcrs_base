@@ -2,8 +2,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RpcBadRequestException } from 'exceptions/custom-rpc-exceptions';
-import { CreateUserDTO, UserDTO } from 'lib';
-import { Users } from 'src/entities/user.entity';
+import { CreateUserDTO, UserDTO, Users } from 'lib';
 import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 

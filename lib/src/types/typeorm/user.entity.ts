@@ -1,21 +1,22 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { v4 as uuidv4 } from 'uuid';
 @Entity({ name: 'users' })
 export class Users {
     @PrimaryColumn()
-    id: string
+    id: string = uuidv4()
 
     @Column()
-    username: string
+    username!: string
 
     @Column()
-    password: string
+    password!: string
 
     @Column()
-    email: string
+    email!: string
 
     @Column({ nullable: true })
-    refreshToken: string
+    refreshToken?: string
 
     @Column({ nullable: true })
-    accessToken: string
+    accessToken?: string
 }

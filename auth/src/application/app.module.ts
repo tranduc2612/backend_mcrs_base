@@ -3,12 +3,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConFig } from 'src/configs/mysqlDB.config';
 import { AuthController } from './controllers/auth.controller';
 import { AuthService } from './services/auth.service';
-import { Users } from './entities/user.entity';
 import { ConfigModule } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from 'src/utils/local.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { env } from 'src/configs/env.config';
+import { Users } from 'lib';
 
 @Module({
   imports: [

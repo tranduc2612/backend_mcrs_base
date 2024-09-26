@@ -21,4 +21,12 @@ export class AuthController {
       return this.authService.registration(payload); 
     }
   }
+
+  @MessagePattern({cmd: TCP_MESSAGES.AUTH_SERVICE.REFRESH_TOKEN}, Transport.TCP)
+  refreshToken(@Body() refreshToken: string) {
+    // const {username, password} = payload;
+    // if(username && password){
+    //   return this.authService.registration(payload); 
+    // }
+  }
 }
