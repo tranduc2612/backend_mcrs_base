@@ -2,10 +2,9 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
-import { LoginDTO, RegisterDTO } from 'lib';
+import { LoginDTO, RegisterDTO, Users } from 'lib';
 import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
-import { Users } from '../entities/user.entity';
 import { RpcBadRequestException } from 'src/exceptions/custom-rpc-exceptions';
 
 @Injectable()

@@ -17,7 +17,12 @@
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.7",
     "@types/node": "^22.5.4",
+    "@types/uuid": "^10.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.20"
   }
 }
