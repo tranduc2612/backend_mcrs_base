@@ -32,14 +32,12 @@ import { Role, ROLES_KEY } from '../../decorators/roles.decorator';
         const payload = await this.jwtService.verifyAsync(
           token,
           {
-            secret: env.APP.SECRET_KEY
+            secret: env.APP.SECRET_KEY_ACCESS_TOKEN
           }
         );
         if (!requiredRoles) {
           return true;
         }
-        // 💡 We're assigning the payload to the request object here
-        // so that we can access it in our route handlers
         request['user'] = payload;
         const {role} = payload
         return requiredRoles.some((roleReq) => role === roleReq);

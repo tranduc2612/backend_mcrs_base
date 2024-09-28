@@ -1,39 +1,45 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
-import { LoginDTO, RegisterDTO, Users } from 'lib';
+import * as jwt from 'jsonwebtoken';
+import { AuthUserDto, CreateUserDto, ErrorType, RegisterDTO, Users } from 'lib';
+import { RpcBadRequestException, RpcUnAuthorizeException } from 'src/exceptions/custom-rpc-exceptions';
 import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
-import { RpcBadRequestException } from 'src/exceptions/custom-rpc-exceptions';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(Users) private readonly userRepository: Repository<Users>,
     private readonly jwtService: JwtService,
-  ) {} 
-  async authentication({ username, password }: LoginDTO) {
+  ) {}
+  async authentication({ username, password }: AuthUserDto) {
     const dataUser = await this.validateUser(username, password);
 
     if (dataUser) {
       const token = this.createToken(dataUser);
-      await this.userRepository.update(dataUser.id, {
-        ...token,
-      });
       return {
         ...dataUser,
-        ...token
+        ...token,
       };
     }
 
     throw new RpcBadRequestException('The username is not exist !');
   }
 
-  async registration({ username, password, email }: RegisterDTO) {
-    const dataUser = await this.validateUser(username, password);
+  async registration({ username, password, email }: CreateUserDto) {
+    const dataUser = await this.userRepository.findOne({
+      where: {
+        username,
+      },
+    });
     if (dataUser) {
-      throw new RpcBadRequestException('The username is already exist !');
+      const error: ErrorType = {
+        field: 'username',
+        errors: ['The username is already exist !']
+      }
+      throw new RpcBadRequestException('',[error]);
     }
 
     const hashedPassword = await this.hashPassword(password);
@@ -49,13 +55,55 @@ export class AuthService {
   }
 
   createToken(payload): { accessToken: string; refreshToken: string } {
-    const { accessToken, refreshToken, ...data } = payload;
+    const { accessToken, refreshToken, exp, ...data } = payload;
     const newAccessToken = this.jwtService.sign(data);
-    const newRefreshToken = Math.random().toString();
+    const newRefreshToken = jwt.sign(
+      data,
+      process.env.SECRET_KEY_REFRESH_TOKEN,
+      {
+        expiresIn: '7d',
+      },
+    );
 
-    return {
+    const token = {
       accessToken: newAccessToken,
       refreshToken: newRefreshToken,
+    };
+
+    this.userRepository.update(data.id, {
+      ...token,
+    });
+
+    return token;
+  }
+
+  verifyRefreshToken(token: string): any {
+    try {
+      return jwt.verify(token, process.env.SECRET_KEY_REFRESH_TOKEN);
+    } catch (err) {
+      return null;
+    }
+  }
+
+  async refreshToken(refreshToken: string) {
+    const refreshData = this.verifyRefreshToken(refreshToken);
+
+    const user = await this.userRepository.findOne({
+      where: {
+        username: refreshData.username,
+        refreshToken
+      },
+    });
+
+    if (!refreshData || !user) {
+      throw new RpcUnAuthorizeException('Refresh token is invalid !');
+    }
+
+    
+    const token = this.createToken(user);
+    return {
+      ...user,
+      ...token,
     };
   }
 

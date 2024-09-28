@@ -10,9 +10,13 @@
     "auth"
   ],
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.7",
     "turbo": "^2.1.1"
   },
   "scripts": {
     "dev": "turbo run start:dev"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^9.0.2"
   }
 }
