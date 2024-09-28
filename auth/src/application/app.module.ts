@@ -18,7 +18,7 @@ import { Users } from 'lib';
     TypeOrmModule.forRootAsync(TypeOrmConFig),
     TypeOrmModule.forFeature([Users]),
     JwtModule.register({
-      secret: env.APP.SECRET_KEY,  // Nên lưu trong biến môi trường
+      secret: env.APP.SECRET_KEY_ACCESS_TOKEN,  // Nên lưu trong biến môi trường
       signOptions: { expiresIn: '1h' },
     }),
     PassportModule

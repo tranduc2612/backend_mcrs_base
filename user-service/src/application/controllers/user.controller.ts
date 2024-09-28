@@ -3,7 +3,7 @@ import {
   Controller
 } from '@nestjs/common';
 import { MessagePattern, Transport } from '@nestjs/microservices';
-import { CreateUserDTO, TCP_MESSAGES } from 'lib';
+import { CreateUserDto, TCP_MESSAGES } from 'lib';
 import { UserService } from '../services/user.service';
 
 @Controller()
@@ -15,7 +15,7 @@ export class UserController {
     return this.userService.get(payload.username); 
   }
   @MessagePattern({cmd: TCP_MESSAGES.USER_SERVICE.CREATE_USER}, Transport.TCP)
-  createUser(@Body() data: CreateUserDTO) {
+  createUser(@Body() data: CreateUserDto) {
     return this.userService.create(data);  
   }
 }

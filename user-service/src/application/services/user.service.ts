@@ -2,7 +2,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RpcBadRequestException } from 'exceptions/custom-rpc-exceptions';
-import { CreateUserDTO, UserDTO, Users } from 'lib';
+import { CreateUserDto, UserDTO, Users } from 'lib';
 import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -35,7 +35,7 @@ export class UserService {
     
   }
 
-  async create(dto: CreateUserDTO): Promise<UserDTO> {
+  async create(dto: CreateUserDto): Promise<UserDTO> {
     const newUser = await this.userRepository.create({
       id: uuidv4(),
       ...dto,
