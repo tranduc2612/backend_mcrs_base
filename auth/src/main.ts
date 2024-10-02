@@ -9,12 +9,10 @@ async function bootstrap() {
     transport: Transport.TCP,
     options: {
       host: env.APP.AUTH_SERVICE.HOST,
-      port:  env.APP.AUTH_SERVICE.PORT
-    }
+      port: env.APP.AUTH_SERVICE.PORT,
+    },
   });
   await app.startAllMicroservices();
   await app.listen(env.APP.AUTH_SERVICE.PORT);
-  console.log(env.APP.SECRET_KEY)
-  console.log('listen port ' + env.APP.AUTH_SERVICE.PORT)
 }
 bootstrap();

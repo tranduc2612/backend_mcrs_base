@@ -1,5 +1,5 @@
-import { Body, Controller, Post, UseInterceptors } from '@nestjs/common';
-import { LoginDTO, RegisterDTO } from 'lib';
+import { Body, Controller, Get, Post, Query, UseInterceptors } from '@nestjs/common';
+import { AuthUserDto, CreateUserDto } from 'lib';
 import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
 import { AuthService } from '../services/auth-service.service';
 
@@ -12,13 +12,20 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
 @Post("login")
-loginUser(@Body() dto: LoginDTO) {
+loginUser(@Body() dto: AuthUserDto) {
 	return this.authService.login(dto); 
 }
 
 @Post("register")
-registerUser(@Body() dto: RegisterDTO) { 
+registerUser(@Body() dto: CreateUserDto) { 
 	return this.authService.register(dto);
+}
+
+@Get("refresh-token")
+refreshToken(@Query("refreshToken") refreshToken: string) {
+	return this.authService.refreshToken({
+		refreshToken
+	});
 }
 
 //   @Post()
